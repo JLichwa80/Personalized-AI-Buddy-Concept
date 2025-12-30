@@ -109,8 +109,7 @@ Mainstream adoption, standardized platforms, and scaled robotics.
 
 ## Current Status
 
-This project focuses on **conceptual architecture and system design**. The goal is to establish foundations for trust-first, user-owned AI systems that mature by 2030.
-
+This project focuses on **conceptual architecture and system design**.
 ---
 
 ## License
