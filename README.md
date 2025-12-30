@@ -1,6 +1,4 @@
-# Personalized AI Buddy Concept
-
-![Interaction diagram](interaction.png)
+# Personalized AI
 
 ## Overview
 
@@ -37,31 +35,33 @@ It's an **operating environment for personal intelligence**.
 2. **Privacy as architecture** — Not a feature, but a system property
 3. **Skills over prompts** — Executable, testable intelligence
 4. **Hardware-rooted trust** — Identity and encryption anchored in secure hardware
-5. **Human-in-the-loop control** — Interactive interface, privileged actions always require approval
-6. **Composable evolution** — From software based skills to automate control of personal devices, robotics
+5. **Human-in-the-loop control** — Privileged actions always require approval
+6. **Composable evolution** — From personal skills to physical robots
 
 ---
 
 ## Key Components
 
-### Personal AI Box
+### AI Box
 Your local compute device with GPU, secure storage, and HSM for trust.
 
 ### Two-Tier Data Storage
 Hardened Vault (HSM-protected) for credentials and sensitive data; Encrypted Storage for documents, preferences, and personal information.
 
 ### Skills System
-Learned, executable capabilities that can be reliably executed without the need of Generative AI.
+Learned, executable capabilities that evolve with you over time.
 
 ### Model Context Protocol (MCP)
 Standard interface connecting skills to apps, devices, and systems.
 
 ### Optional Cloud Augmentation
-Tasks requiring Cloud scale knowledge like gather and evaluate information from 100s web pages (research task).
+Heavy compute tasks use cloud AI—but stateless, memory-free, and under your control.
+
 
 ## Target Users
 
-**Individual Consumers** seeking Home AI automation
+- **Individual consumers** seeking Home AI Automation
+
 ---
 
 ## Documentation Structure
@@ -86,7 +86,8 @@ Tasks requiring Cloud scale knowledge like gather and evaluate information from 
 
 ## Current Status
 
-This project focuses on **conceptual architecture and system design**.
+This project focuses on **conceptual architecture and system design**. 
+
 ---
 
 ## License
@@ -97,4 +98,4 @@ TBD (conceptual documentation only)
 
 ## Contact
 
-For questions, feedback, or collaboration: [Contact information to be added]
+For questions, feedback, or collaboration you can contact me at jacklichwa@gmail.com or create an issue.
