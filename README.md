@@ -37,54 +37,31 @@ It's an **operating environment for personal intelligence**.
 2. **Privacy as architecture** — Not a feature, but a system property
 3. **Skills over prompts** — Executable, testable intelligence
 4. **Hardware-rooted trust** — Identity and encryption anchored in secure hardware
-5. **Human-in-the-loop control** — Privileged actions always require approval
-6. **Composable evolution** — From personal skills to physical robots
+5. **Human-in-the-loop control** — Interactive interface, privileged actions always require approval
+6. **Composable evolution** — From software based skills to automate control of personal devices, robotics
 
 ---
 
 ## Key Components
 
-### Personal AI Node
+### Personal AI Box
 Your local compute device with GPU, secure storage, and HSM for trust.
 
 ### Two-Tier Data Storage
 Hardened Vault (HSM-protected) for credentials and sensitive data; Encrypted Storage for documents, preferences, and personal information.
 
 ### Skills System
-Learned, executable capabilities that evolve with you over time.
+Learned, executable capabilities that can be reliably executed without the need of Generative AI.
 
 ### Model Context Protocol (MCP)
 Standard interface connecting skills to apps, devices, and systems.
 
 ### Optional Cloud Augmentation
-Heavy compute tasks use cloud AI—but stateless, memory-free, and under your control.
-
----
-
-## Evolution Path
-
-### Phase 1 (2026): Personal AI Node
-Usable personalized AI for daily life, with local models and skill authoring.
-
-### Phase 2 (2027): Skills Ecosystem
-Developer SDKs, intelligent MCPs, and early robotics integration.
-
-### Phase 3 (2028-2029): Enterprise Ready
-Security, compliance, and enterprise deployment patterns.
-
-### Phase 4 (2030): Platform Maturity
-Mainstream adoption, standardized platforms, and scaled robotics.
-
----
+Tasks requiring Cloud scale knowledge like gather and evaluate information from 100s web pages (research task).
 
 ## Target Users
 
-- **Privacy-conscious individuals** seeking true data ownership
-- **Developers** wanting to extend AI capabilities safely
-- **Enterprises** needing compliant, trusted AI assistants
-- **Researchers** exploring next-gen AI architectures
-- **Robotics enthusiasts** building physical-world automation
-
+**Individual Consumers** seeking Home AI automation
 ---
 
 ## Documentation Structure
