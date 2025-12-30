@@ -1,5 +1,7 @@
 # Personalized AI
 
+![Interaction diagram](interaction.png)
+
 ## Overview
 
 **Personalized AI Buddy** is a local-first, privacy-preserving, skill-based AI system built around the individual. Unlike today's cloud-centric assistants, your AI Buddy treats personal data ownership, hardware-rooted trust, and user-taught skills as core architectural primitives.
