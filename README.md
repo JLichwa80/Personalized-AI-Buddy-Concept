@@ -1,4 +1,4 @@
-# Personalized AI
+# Personalized AI Buddy Concept
 
 ![Interaction diagram](interaction.png)
 
