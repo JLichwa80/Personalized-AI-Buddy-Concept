@@ -68,21 +68,22 @@ Heavy compute tasks use cloud AI—but stateless, memory-free, and under your co
 
 ## Documentation Structure
 
-- **[01_Executive_Summary_Vision.md](01_Executive_Summary_Vision.md)** — Vision, manifesto, and why this matters
-- **[02_System_Architecture.md](02_System_Architecture.md)** — Technical architecture and trust model
-- **[03_Skills_Platform.md](03_Skills_Platform.md)** — Skills system, MCP, and developer platform
-- **[04_Roadmap_Evolution.md](04_Roadmap_Evolution.md)** — Timeline and path to robotics
-- **[05_Market_Comparison.md](05_Market_Comparison.md)** — How this differs from cloud AI
-- **[06_Use_Cases.md](06_Use_Cases.md)** — Real-world applications and examples
+- **[Executive_Summary_Vision.md](Executive_Summary_Vision.md)** — Vision, manifesto, and why this matters
+- **[System_Architecture.md](System_Architecture.md)** — Technical architecture and trust model
+- **[Skills_Platform.md](Skills_Platform.md)** — Skills system, MCP, and developer platform
+- **[Roadmap_Evolution.md](Roadmap_Evolution.md)** — Timeline and path to robotics
+- **[Market_Comparison.md](Market_Comparison.md)** — How this differs from cloud AI
+- **[Use_Cases.md](Use_Cases.md)** — Real-world applications and examples
+- **[Security_Privacy.md](Security_Privacy.md)** — Security and privacy details
 
 ---
 
 ## Getting Started
 
-1. Read the [Executive Summary & Vision](01_Executive_Summary_Vision.md) to understand the why
-2. Review the [System Architecture](02_System_Architecture.md) to see how it works
-3. Explore the [Skills & Platform](03_Skills_Platform.md) to understand capabilities
-4. Check the [Roadmap](04_Roadmap_Evolution.md) for timeline and evolution
+1. Read the [Executive Summary & Vision](Executive_Summary_Vision.md) to understand the why
+2. Review the [System Architecture](System_Architecture.md) to see how it works
+3. Explore the [Skills & Platform](Skills_Platform.md) to understand capabilities
+4. Check the [Roadmap](Roadmap_Evolution.md) for timeline and evolution
 
 ---
 

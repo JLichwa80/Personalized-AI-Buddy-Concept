@@ -27,7 +27,7 @@ The architecture is designed to support **privacy, control, and evolvability** w
 - Chat/text UI
 - Web/TV interfaces
 - AR/VR and smart glasses
-- Mobile companion for approvals and alerts
+- Mobile device for approvals (push notifications / authenticator)
 
 **Role:** Adapt interaction to user context, handle input/output, manage feedback loops.
 
@@ -74,7 +74,7 @@ Each AI Box has a **unique cryptographic identity**:
   - Secure local access control
   - Attestation of trusted execution
 
-This identity replaces traditional usernames and passwords.
+This identity enables secure authentication. Some services support identity-based access with MFA (using IP, cached cookies, etc.); others still require traditional credentials (stored in Vault).
 
 #### Hardware Security Module (HSM)
 
@@ -144,10 +144,9 @@ Personal data is stored in two separate tiers based on sensitivity:
 - Tamper-resistant
 
 **Access Pattern:**
-- Every access requires explicit approval or HSM verification
+- Privileged access requires user approval (with defense-in-depth at target services)
+- Non-privileged access (e.g., regular web browsing) verified locally
 - All access attempts logged and auditable
-- Cannot be bulk-exported
-- Subject to privileged operation rules
 
 #### Encrypted Storage (Software-Protected)
 
@@ -184,6 +183,7 @@ Personal data is stored in two separate tiers based on sensitivity:
 - Medium-scale LLMs (7B-70B parameters optimized for local inference)
 - Planning & reasoning models
 - Multimodal models (vision, speech)
+- Code AI models (e.g., Qwen-coder) for skill development and automation
 - Embedding and memory retrieval engines
 - Specialized small models for specific tasks
 
@@ -203,7 +203,7 @@ Personal data is stored in two separate tiers based on sensitivity:
 
 ### 6. Skill System Layer
 
-See [Skills & Platform](03_Skills_Platform.md) for comprehensive details.
+See [Skills & Platform](Skills_Platform.md) for comprehensive details.
 
 **Quick Overview:**
 - Skills are first-class, executable units of intelligence
@@ -213,20 +213,43 @@ See [Skills & Platform](03_Skills_Platform.md) for comprehensive details.
 
 ---
 
-### 7. Cloud AI Augmentation (Optional)
+### 7. Browser Automation Layer
+
+**Role:** Primary interface for all external world interaction.
+
+The AI Box uses a **Chromium-based web browser** as its main mechanism for interacting with external systems. Any website accessible to a web browser can be controlled by the local AI on behalf of the user.
+
+**Key Principle:** Browser automation, not REST APIs or services, is the default approach for external interactions.
+
+**Capabilities:**
+- On-behalf-of authentication using Vault credentials
+- Full browser interaction (navigation, forms, clicking, scrolling, reading content)
+- Multi-step workflows (login → navigate → interact → complete)
+- Works with any web-based system (banking, airlines, e-commerce, social media, enterprise apps, etc.)
+
+**Security Model:**
+- **Outbound only** — AI Box initiates all connections; nothing is exposed to the internet
+- **No inbound services** — no exposed ports, cannot be called from outside
+- Credentials retrieved from Vault via HSM, used only for the session
+- Sandboxed browser execution
+- All actions logged and auditable
+
+**Exception:** Cloud AI uses direct API calls (stateless).
+
+---
+
+### 8. Cloud AI Augmentation (Optional)
 
 **Usage:** Research, media generation, high-compute tasks
 
 **Principles:**
-- Stateless (no conversation memory stored)
-- Memory-free (no personal data retention)
-- No identity exposure (anonymized requests)
+- Personal data labeled and not used in interaction without user approval
 - Output validated locally before use
 
 **Typical Use Cases:**
 - Large-scale research and summarization
 - Advanced media generation (images, video)
-- Model training and fine-tuning
+- Model training and fine-tuning (available, but local GPU should be able to handle it)
 - Large corpus processing
 
 **Constraints:**
@@ -237,7 +260,7 @@ See [Skills & Platform](03_Skills_Platform.md) for comprehensive details.
 
 ---
 
-### 8. Privileged Operation & Approval Layer
+### 9. Privileged Operation & Approval Layer
 
 **Definition:** Privileged operations are actions that could have significant real-world impact if misused.
 
@@ -251,26 +274,24 @@ See [Skills & Platform](03_Skills_Platform.md) for comprehensive details.
 
 **Approval Workflow:**
 
-1. AI proposes action
-2. HSM flags as privileged based on policy
-3. User receives out-of-band approval request:
+1. AI query requires privileged operation (access denied)
+2. User receives out-of-band approval request:
    - Mobile push notification
    - Biometric confirmation (fingerprint, face)
    - Hardware key or PIN
    - Context display (what, why, impact)
-4. User approves or denies
-5. Cryptographic authorization generated
-6. Execution proceeds (or is blocked)
+3. User approves or denies
+4. Cryptographic authorization generated
+5. Execution proceeds (or is blocked)
 
 **Security Guarantees:**
-- AI cannot bypass approval flow
+- AI bypass not possible — even if AI hallucinates or malfunctions, target services enforce MFA/permissions independently (defense-in-depth requirement)
 - Approvals are cryptographically verified
 - All privileged actions are logged
-- Approval patterns can be learned (with explicit consent)
 
 ---
 
-### 9. Robotics Layer (Future, ~2027)
+### 10. Robotics Layer (North Star)
 
 **Concept:** Robots act as **peripherals executing learned skills**
 
@@ -280,28 +301,26 @@ See [Skills & Platform](03_Skills_Platform.md) for comprehensive details.
 - Execution requires explicit user approval for risky actions
 - Local decision-making (no cloud dependency for real-time control)
 
-See [Roadmap & Evolution](04_Roadmap_Evolution.md) for details.
-
 ---
 
 ## Data Flow Summary
 
 ```
-1. User input arrives via Interaction Layer
+1. User input arrives via Interaction Layer (Voice, Chat)
    ↓
 2. Input processed by Local AI Model Stack
    ↓
-3. Memory and context retrieved from Encrypted Vault
+3. Memory and context retrieved from Encrypted Storage when needed
    ↓
-4. Skills invoked via Skill System
+4. AI uses Browser to complete tasks
    ↓
-5. [Optional] Cloud processing for heavy computation
+5. [Optional] AI waits for user approval (push notification / authenticator)
    ↓
-6. Proposed actions validated via Trust & Approval Layer
+6. [Optional] Cloud processing for heavy computation
    ↓
 7. Safe outputs delivered via Interaction Layer
    ↓
-8. Feedback recorded back into Vault to evolve models and skills
+8. Feedback recorded and encrypted, results shown in browser (TV, VR, Monitor)
 ```
 
 ---
@@ -332,11 +351,11 @@ See [Roadmap & Evolution](04_Roadmap_Evolution.md) for details.
 **Assumes:**
 - User owns and controls the device
 - HSM is not physically compromised
-- User approves actions intentionally
+- User approves privileged actions intentionally
 - Local network is reasonably secure
 
 **Does Not Protect Against:**
-- Physical device theft (but data remains encrypted)
+- Physical device theft (but data remains encrypted), box identity access can be disabled
 - User being coerced into approval
 - Zero-day exploits in hardware/firmware
 - Supply chain attacks on hardware
@@ -347,22 +366,23 @@ See [Roadmap & Evolution](04_Roadmap_Evolution.md) for details.
 
 ### Local Network
 - AI Box connects to home/office network
-- Discovers and connects to local devices via MCP
+- Discovers and connects to local MCP servers (skills)
 - No cloud dependency for core operations
 
 ### Internet Connectivity
-- Optional for cloud augmentation
+- Outbound only
 - Required for:
+  - Browser based automation of external websites
+  - Cloud AI research tasks
+  - Cloud Storage (optional, BYOK preferred where possible; some services like NotebookLM are provider-managed)
   - Software updates
-  - Cloud research tasks
-  - External service integration
 - All external traffic is auditable
 
-### Zero Trust Principles
+### Zero Trust Capabilities
 - No implicit trust between components
 - All connections authenticated
-- All data flows encrypted
 - Minimal privilege principle
+- Bring your own certificate, key (for cloud interaction)
 
 ---
 
@@ -375,7 +395,7 @@ See [Roadmap & Evolution](04_Roadmap_Evolution.md) for details.
 └────────────────────┬────────────────────────────────────┘
                      │
 ┌────────────────────▼────────────────────────────────────┐
-│              AI Box (Local)                    │
+│                     AI Box (Local)                       │
 │  ┌──────────────────────────────────────────────────┐  │
 │  │  Local AI Models (LLM, Vision, Speech)           │  │
 │  │  • Reasoning & Planning                          │  │
@@ -389,9 +409,15 @@ See [Roadmap & Evolution](04_Roadmap_Evolution.md) for details.
 │  └──────────────────────────────────────────────────┘  │
 │                                                          │
 │  ┌──────────────────────────────────────────────────┐  │
+│  │  Browser Automation Layer                        │  │
+│  │  • Chromium-based browser (Playwright/DevTools)  │  │
+│  │  • On-behalf-of authentication                   │  │
+│  └──────────────────────────────────────────────────┘  │
+│                                                          │
+│  ┌──────────────────────────────────────────────────┐  │
 │  │  Data Storage (Two-Tier)                         │  │
 │  │  ┌──────────────────────────────────────────┐   │  │
-│  │  │ Vault (HSM-Protected)           │   │  │
+│  │  │ Vault (HSM-Protected)                    │   │  │
 │  │  │ • Credentials & Keys                     │   │  │
 │  │  │ • Financial/Medical Auth                 │   │  │
 │  │  └──────────────────────────────────────────┘   │  │
@@ -406,50 +432,50 @@ See [Roadmap & Evolution](04_Roadmap_Evolution.md) for details.
 │  │  Trust & Security Layer                          │  │
 │  │  • HSM (Key Storage & Crypto Operations)         │  │
 │  │  • TEE Enclave (Secure Execution)                │  │
-│  │  • Approval Gate for Privileged Actions          │  │
+│  │  • Approval Gate for Privileged Actions ─────────┼──┼──► Mobile (Push)
 │  └──────────────────────────────────────────────────┘  │
-└───────────┬──────────────────────────────────┬─────────┘
-            │                                  │
-            │ Optional                         │ Local
-            │ Cloud AI                         │ Devices
-            ▼                                  ▼
-    ┌──────────────┐                  ┌──────────────┐
-    │  Cloud AI    │                  │   Robotics   │
-    │  Services    │                  │   & Smart    │
-    │  (Stateless) │                  │   Devices    │
-    └──────────────┘                  └──────────────┘
+└───────────┬─────────────────┬────────────────┬─────────┘
+            │                 │                │
+            │ Outbound        │ Outbound       │ Outbound
+            │ Only            │ Only           │ Only
+            ▼                 ▼                ▼
+    ┌──────────────┐  ┌──────────────┐  ┌──────────────┐
+    │  Cloud AI    │  │  World Wide  │  │   Robotics   │
+    │  Services    │  │  Web (WWW)   │  │   & Smart    │
+    │              │  │              │  │   Devices    │
+    └──────────────┘  └──────────────┘  └──────────────┘
+
+    ⬆ All connections are OUTBOUND ONLY - no exposed ports, no inbound services
+    ⬆ Only inbound: User input via local network (Voice, Chat)
+    ⬆ Mobile approval responses travel via push notification service (not direct inbound)
 ```
 
 **Key Components:**
 - **Top Layer:** How users interact with the system
 - **AI Box:** Your local hardware running everything
 - **Models:** AI intelligence running on your device
-- **Skills & MCP:** What the AI can actually do
+- **Skills & MCP:** Additional personalized knowledge, repetitive tasks automation
+- **Browser Automation:** Chromium-based browser for external web interactions
 - **Two-Tier Storage:** Vault (HSM-protected) + Encrypted Storage
-- **HSM:** Hardware for key storage and crypto operations
-- **TEE Enclave:** Secure CPU area for sensitive execution
-- **Optional Cloud:** Heavy compute when needed
-- **Devices:** Physical world integration (robotics, smart home)
+- **Trust & Security:** HSM for keys, TEE for secure execution, Approval Gate
+- **World Wide Web:** Outbound-only access to any website via browser automation
+- **Optional Cloud:** Knowledge research, complex tasks (fallback)
+- **Devices:** Physical world integration (home robots, smart home)
 
 ---
 
 ## Performance Characteristics
 
-### Latency
-- Local inference: 50-500ms depending on model size
-- Skill execution: Near-instant to seconds
-- Cloud augmentation: 1-10s depending on task
-
 ### Storage
-- Vault: 1-10GB (highly sensitive data only)
-- Encrypted Storage: 500GB - 2TB (general personal data)
-- Model storage: 50-200GB for multiple models
-- Skill storage: 1-10GB
+- Vault: (credentials, identities)
+- Encrypted Storage: (personal data)
+- Model storage: (Voice Conversational Model, Coding Model)
+- Skill storage
+- Cloud Based Knowledge i.e. NotebookLM (Optional)
 
 ### Compute
-- Continuous background processing for learning
 - On-demand inference for user queries
-- Periodic maintenance and optimization
+- Scheduled tasks execution
 
 ---
 
@@ -457,69 +483,27 @@ See [Roadmap & Evolution](04_Roadmap_Evolution.md) for details.
 
 ### Personal Scale
 - Designed for single user or family
-- Not architected for shared/multi-tenant use
-- Scales through skill sophistication, not user count
-
-### Skill Scale
-- Hundreds to thousands of skills per user
-- Skills can invoke other skills (composability)
-- MCPs enable integration with unlimited external systems
+- Scales through skill personalization, and knowledge (local RAG, cloud NotebookLM)
 
 ---
 
 ## Technical Implementation Notes
 
 ### Language & Frameworks
-- System services: Rust for security and performance
-- Skills: Python, TypeScript, or user preference
+- Skills: Python, Playwright, Chrome DevTools (Stealth Mode)
 - MCPs: Language-agnostic interfaces
-- Web interfaces: Modern web frameworks
 
 ### Hardware Requirements
-- Minimum: Modern GPU (RTX 4060 or equivalent)
-- Recommended: RTX 4090 or consumer AI accelerator
-- Storage: NVMe SSD for fast model loading
-- RAM: 32GB minimum, 64GB+ recommended
-
-### Operating System
-- Linux-based for security and control
-- Immutable OS with verified boot
-- Containerized skill execution
-- SELinux or AppArmor for isolation
+- DGX Spark like with Blackwell GPU, HSM, CPU with TEE support
 
 ---
 
-## Future Architecture Evolution
-
-### Near Term (2026-2027)
-- Optimization for consumer hardware
-- Better model quantization and efficiency
-- Enhanced skill authoring tools
-- Robotics integration framework
-
-### Medium Term (2027-2029)
-- Multi-device synchronization (with encryption)
-- Advanced federated learning
-- Enterprise identity integration
-- Standardized hardware platforms
-
-### Long Term (2030+)
-- Brain-computer interface research
-- Advanced human-AI symbiosis
-- Physical-world robot fleets
-- AI-to-AI secure communication protocols
-
----
 
 ## Why This Architecture Matters
 
 This architecture enables:
-- True personalization without surveillance
-- Regulatory compliance by design
 - Safe delegation of real-world actions
-- A foundation for future robotics
 - User ownership and control
-- Predictable, auditable behavior
 
 Without local trust, AI remains a tool.  
 With trust, it becomes an extension of the user.
@@ -532,7 +516,7 @@ Personalized AI architecture prioritizes:
 - User trust and ownership
 - Privacy by design
 - Skill-based intelligence
-- Local control with optional cloud augmentation
-- Evolution toward robotics
+- Local control with optional cloud augmentation (fallback scenarios, research tasks)
+- Evolution toward home devices, robots control
 
-It is designed for **adaptability, security, and long-term user alignment**.
+
