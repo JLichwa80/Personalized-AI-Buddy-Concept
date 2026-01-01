@@ -68,10 +68,9 @@ Heavy compute tasks use cloud AI—but stateless, memory-free, and under your co
 
 ## Documentation Structure
 
-- **[Executive_Summary_Vision.md](Executive_Summary_Vision.md)** — Vision, manifesto, and why this matters
+- **[Vision.md](Vision.md)** — Vision, manifesto, and why this matters
 - **[System_Architecture.md](System_Architecture.md)** — Technical architecture and trust model
 - **[Skills_Platform.md](Skills_Platform.md)** — Skills system, MCP, and developer platform
-- **[Roadmap_Evolution.md](Roadmap_Evolution.md)** — Timeline and path to robotics
 - **[Market_Comparison.md](Market_Comparison.md)** — How this differs from cloud AI
 - **[Use_Cases.md](Use_Cases.md)** — Real-world applications and examples
 - **[Security_Privacy.md](Security_Privacy.md)** — Security and privacy details
@@ -80,10 +79,9 @@ Heavy compute tasks use cloud AI—but stateless, memory-free, and under your co
 
 ## Getting Started
 
-1. Read the [Executive Summary & Vision](Executive_Summary_Vision.md) to understand the why
+1. Read the [Vision](Vision.md) to understand the why
 2. Review the [System Architecture](System_Architecture.md) to see how it works
 3. Explore the [Skills & Platform](Skills_Platform.md) to understand capabilities
-4. Check the [Roadmap](Roadmap_Evolution.md) for timeline and evolution
 
 ---
 

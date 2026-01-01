@@ -1,4 +1,4 @@
-# Executive Summary & Vision
+# Vision Summary
 
 ## The Core Problem
 
